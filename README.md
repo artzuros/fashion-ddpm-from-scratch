@@ -6,3 +6,5 @@ Implementation of Denoising Diffusion Probabilistic Model in Pytorch. It is a ne
 
 ![alt text](image.png)
 
+### Training 
+Running the `main.py` script starts the download and training on Fashion MNIST dataset.
