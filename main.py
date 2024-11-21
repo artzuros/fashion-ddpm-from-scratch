@@ -5,10 +5,14 @@ import random
 from torchvision.transforms import Compose, ToTensor, Lambda
 from torchvision.datasets.mnist import FashionMNIST
 from torch.utils.data import DataLoader
+from torch.optim import Adam
+
 
 from displayer import show_first_batch, show_images
 from utils_DDPM import DDPM, show_forward, generate_new_images
 from utils_UNet import UNet
+from utils_training import training_loop
+
 
 STORE_PATH_FASHION = f"ddpm_model_fashion.pt"
 store_path = "weights/ddpm_fashion.pt"
@@ -42,8 +46,8 @@ generated = generate_new_images(ddpm, gif_name="before_training.gif")
 show_images(generated, "Images generated before training")
 
 store_path = "weights/ddpm_fashion.pt"
-#if not no_train:
-#    training_loop(ddpm, loader, n_epochs, optim=Adam(ddpm.parameters(), lr), device=device, store_path=store_path)
+if not no_train:
+   training_loop(ddpm, loader, n_epochs, optim=Adam(ddpm.parameters(), lr), device=device, store_path=store_path)
 
 best_model = DDPM(UNet(), n_steps=n_steps, device=device)
 best_model.load_state_dict(torch.load(store_path, map_location=device))
