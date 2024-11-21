@@ -94,6 +94,10 @@ def generate_new_images(ddpm, n_samples=16, device=None, frames_per_gif=100, gif
                 frame = einops.rearrange(normalized, "(b1 b2) c h w -> (b1 h) (b2 w) c", b1=int(n_samples ** 0.5))
                 frame = frame.cpu().numpy().astype(np.uint8)
 
+                # Convert single-channel images to three-channel images
+                if frame.shape[2] == 1:
+                    frame = np.repeat(frame, 3, axis=2)
+
                 frames.append(frame)
 
     #gif save
